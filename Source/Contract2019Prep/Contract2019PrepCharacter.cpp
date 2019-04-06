@@ -8,6 +8,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "TimerManager.h"
+#include "Components/TimelineComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AContract2019PrepCharacter
@@ -57,6 +60,9 @@ void AContract2019PrepCharacter::SetupPlayerInputComponent(class UInputComponent
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	// Bind fire event
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AContract2019PrepCharacter::OnFire);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AContract2019PrepCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AContract2019PrepCharacter::MoveRight);
 
@@ -76,6 +82,154 @@ void AContract2019PrepCharacter::SetupPlayerInputComponent(class UInputComponent
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AContract2019PrepCharacter::OnResetVR);
 }
 
+void AContract2019PrepCharacter::BeginPlay()
+{
+	// Call the base class
+	Super::BeginPlay();
+
+	FullHealth = 1000.0f;
+	Health = FullHealth;
+	HealthPercentage = 1.0f;
+	bCanBeDamaged = true;
+
+	FullMagic = 100.0f;
+	Magic = FullMagic;
+	MagicPercentage = 1.0f;
+	PreviousMagic = MagicPercentage;
+	MagicValue = 0.0f;
+	bCanUseMagic = true;
+
+	if (MagicCurve)
+	{
+		FOnTimelineFloat TimelineCallback;
+		FOnTimelineEventStatic TimelineFinishedCallback;
+
+		TimelineCallback.BindUFunction(this, FName("SetMagicValue"));
+		TimelineFinishedCallback.BindUFunction(this, FName("SetMagicState"));
+
+		MyTimeline = NewObject<UTimelineComponent>(this, FName("Magic Animation"));
+		MyTimeline->AddInterpFloat(MagicCurve, TimelineCallback);
+		MyTimeline->SetTimelineFinishedFunc(TimelineFinishedCallback);
+		MyTimeline->RegisterComponent();
+	}
+}
+
+void AContract2019PrepCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (MyTimeline)
+	{
+		MyTimeline->TickComponent(DeltaTime, ELevelTick::LEVELTICK_TimeOnly, nullptr);
+	}
+}
+
+float AContract2019PrepCharacter::GetHealth()
+{
+	return HealthPercentage;
+}
+
+FText AContract2019PrepCharacter::GetHealthIntText()
+{
+	int32 MP = FMath::RoundHalfFromZero(HealthPercentage * 100);
+	FString MPS = FString::FromInt(MP);
+	FString FullMPS = FString::FromInt(FullMagic);
+	FString MagicHUD = MPS + FString(TEXT("/") + FullMPS);
+	FText MagicText = FText::FromString(MagicHUD);
+	return MagicText;
+}
+
+float AContract2019PrepCharacter::GetMagic()
+{
+	return MagicPercentage;
+}
+
+FText AContract2019PrepCharacter::GetMagicIntText()
+{
+	int32 HP = FMath::RoundHalfFromZero(HealthPercentage * 100);
+	FString HPS = FString::FromInt(HP);
+	FString HealthHUD = HPS + FString(TEXT("%"));
+	FText HPText = FText::FromString(HealthHUD);
+	return HPText;
+}
+
+void AContract2019PrepCharacter::DamageTimer()
+{
+	GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AContract2019PrepCharacter::SetDamageState, 2.0f, false);
+}
+
+void AContract2019PrepCharacter::SetDamageState()
+{
+	bCanBeDamaged = true;
+}
+
+void AContract2019PrepCharacter::SetMagicValue()
+{
+	TimelineValue = MyTimeline->GetPlaybackPosition();
+	CurveFloatValue = PreviousMagic + MagicValue*MagicCurve->GetFloatValue(TimelineValue);
+	Magic = CurveFloatValue*FullMagic;
+	Magic = FMath::Clamp(Magic, 0.0f, FullMagic);
+	MagicPercentage = CurveFloatValue;
+	MagicPercentage = FMath::Clamp(MagicPercentage, 0.0f, 1.0f);
+}
+
+void AContract2019PrepCharacter::SetMagicState()
+{
+	bCanUseMagic = true;
+	MagicValue = 0.0f;
+	if (GunDefaultMaterial)
+	{
+		// set material on body part
+	}
+}
+
+void AContract2019PrepCharacter::SetMagicChange(float MagicChange)
+{
+	bCanUseMagic = false;
+	PreviousMagic = MagicPercentage;
+	MagicValue = MagicChange / FullMagic;
+	if (GunOverheatMaterial)
+	{
+		// change material to overheat
+	}
+
+	MyTimeline->PlayFromStart();
+}
+
+void AContract2019PrepCharacter::UpdateMagic()
+{
+	PreviousMagic = MagicPercentage;
+	MagicPercentage = Magic / FullMagic;
+	MagicValue = 1.0f;
+	MyTimeline->PlayFromStart();
+}
+
+bool AContract2019PrepCharacter::PlayFlash()
+{
+	if (redFlash)
+	{
+		redFlash = false;
+		return true;
+	}
+
+	return false;
+}
+
+float AContract2019PrepCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser)
+{
+	bCanBeDamaged = false;
+	redFlash = true;
+	UpdateHealth(-DamageAmount);
+	DamageTimer();
+	return DamageAmount;
+}
+
+void AContract2019PrepCharacter::UpdateHealth(float HealthChange)
+{
+	Health += HealthChange;
+	Health = FMath::Clamp(Health, 0.0f, FullHealth);
+	HealthPercentage = Health / FullHealth;
+}
 
 void AContract2019PrepCharacter::OnResetVR()
 {
@@ -90,6 +244,17 @@ void AContract2019PrepCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVe
 void AContract2019PrepCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 		StopJumping();
+}
+
+void AContract2019PrepCharacter::OnFire()
+{
+	if (!FMath::IsNearlyZero(Magic, 0.001f) && bCanUseMagic)
+	{
+		MyTimeline->Stop();
+		GetWorldTimerManager().ClearTimer(MagicTimerHandle);
+		SetMagicChange(-20.0f);
+		GetWorldTimerManager().SetTimer(MagicTimerHandle, this, &AContract2019PrepCharacter::UpdateMagic, 5.0f, false);
+	}
 }
 
 void AContract2019PrepCharacter::TurnAtRate(float Rate)

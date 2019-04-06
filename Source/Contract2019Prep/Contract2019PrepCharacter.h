@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "Contract2019PrepCharacter.generated.h"
 
+class UInputComponent;
+class UTimelineComponent;
+
 UCLASS(config=Game)
 class AContract2019PrepCharacter : public ACharacter
 {
@@ -18,9 +21,16 @@ class AContract2019PrepCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
 public:
 	AContract2019PrepCharacter();
 
+protected:
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -28,9 +38,91 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+	// UMG Tutorial Variables and Functions
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float FullHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float HealthPercentage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	bool redFlash;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magic")
+	float FullMagic;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magic")
+	float Magic;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magic")
+	float MagicPercentage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magic")
+	float PreviousMagic;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magic")
+	float MagicValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magic")
+	UCurveFloat* MagicCurve;
+
+	UTimelineComponent* MyTimeline;
+	FTimerHandle MemberTimerHandle;
+	FTimerHandle MagicTimerHandle;
+
+	float CurveFloatValue;
+	float TimelineValue;
+	bool bCanUseMagic;
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealth();
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	FText GetHealthIntText();
+
+	UFUNCTION(BlueprintPure, Category = "Magic")
+	float GetMagic();
+
+	UFUNCTION(BlueprintPure, Category = "Magic")
+	FText GetMagicIntText();
+
+	UFUNCTION()
+	void DamageTimer();
+
+	UFUNCTION()
+	void SetDamageState();
+
+	UFUNCTION()
+	void SetMagicValue();
+
+	UFUNCTION()
+	void SetMagicState();
+
+	UFUNCTION()
+	void SetMagicChange(float MagicChange);
+
+	UFUNCTION()
+	void UpdateMagic();
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	bool PlayFlash();
+
+	UPROPERTY(EditAnywhere, Category = "Magic")
+	class UMaterialInterface* GunDefaultMaterial;
+
+	UPROPERTY(EditAnywhere, Category = "Magic")
+	class UMaterialInterface* GunOverheatMaterial;
+
+	UFUNCTION()
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser);
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void UpdateHealth(float HealthChange);
 
 protected:
-
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
 
@@ -57,6 +149,9 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+	// Fire a projectile
+	void OnFire();
 
 protected:
 	// APawn interface

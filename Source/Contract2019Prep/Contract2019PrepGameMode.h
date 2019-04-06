@@ -4,7 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Contract2019PrepCharacter.h"
 #include "Contract2019PrepGameMode.generated.h"
+
+UENUM()
+enum class EGamePlayState
+{
+	EPlaying,
+	EGameOver,
+	EUnknown
+};
 
 UCLASS(minimalapi)
 class AContract2019PrepGameMode : public AGameModeBase
@@ -13,6 +22,22 @@ class AContract2019PrepGameMode : public AGameModeBase
 
 public:
 	AContract2019PrepGameMode();
+
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+	AContract2019PrepCharacter* MyCharacter;
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	EGamePlayState GetCurrentState() const;
+
+	void SetCurrentState(EGamePlayState NewState);
+
+private:
+	EGamePlayState CurrentState;
+
+	void HandleNewState(EGamePlayState NewState);
 };
 
 
