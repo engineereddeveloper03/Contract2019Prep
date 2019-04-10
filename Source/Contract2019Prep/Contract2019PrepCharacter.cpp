@@ -131,12 +131,11 @@ float AContract2019PrepCharacter::GetHealth()
 
 FText AContract2019PrepCharacter::GetHealthIntText()
 {
-	int32 MP = FMath::RoundHalfFromZero(HealthPercentage * 100);
-	FString MPS = FString::FromInt(MP);
-	FString FullMPS = FString::FromInt(FullMagic);
-	FString MagicHUD = MPS + FString(TEXT("/") + FullMPS);
-	FText MagicText = FText::FromString(MagicHUD);
-	return MagicText;
+	int32 HP = FMath::RoundHalfFromZero(HealthPercentage * 100);
+	FString HPS = FString::FromInt(HP);
+	FString HealthHUD = HPS + FString(TEXT("%"));
+	FText HPText = FText::FromString(HealthHUD);
+	return HPText;
 }
 
 float AContract2019PrepCharacter::GetMagic()
@@ -146,11 +145,12 @@ float AContract2019PrepCharacter::GetMagic()
 
 FText AContract2019PrepCharacter::GetMagicIntText()
 {
-	int32 HP = FMath::RoundHalfFromZero(HealthPercentage * 100);
-	FString HPS = FString::FromInt(HP);
-	FString HealthHUD = HPS + FString(TEXT("%"));
-	FText HPText = FText::FromString(HealthHUD);
-	return HPText;
+	int32 MP = FMath::RoundHalfFromZero(MagicPercentage * 100);
+	FString MPS = FString::FromInt(MP);
+	FString FullMPS = FString::FromInt(FullMagic);
+	FString MagicHUD = MPS + FString(TEXT("/") + FullMPS);
+	FText MagicText = FText::FromString(MagicHUD);
+	return MagicText;
 }
 
 void AContract2019PrepCharacter::DamageTimer()
