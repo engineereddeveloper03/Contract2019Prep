@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "TextBlock.h"
 #include "WidgetTree.h"
+#include "Kismet\GameplayStatics.h"
 #include "HUDWidget.generated.h"
 
 /**
@@ -33,7 +34,16 @@ public:
 	UPROPERTY(meta = (BindWidgetOptional))
 	UButton* ExampleButton;
 
+	UPROPERTY(meta = (BindWidgetOptional))
+	UButton* PlayButton;
+
 	// Event Handlers
 	UFUNCTION()
 	void OnButtonClicked();
+
+	UFUNCTION()
+	void StartGame();
+
+	// Misc
+	bool colored;
 };

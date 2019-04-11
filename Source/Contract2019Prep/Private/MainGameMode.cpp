@@ -78,7 +78,7 @@ void AMainGameMode::HandleNewState(EGamePlayState NewState)
 		// do nothing
 		break;
 	case EGamePlayState::EGameOver:
-		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+		UGameplayStatics::OpenLevel(this, "MainMenu");
 		break;
 	case EGamePlayState::EUnknown:
 		// do nothing
