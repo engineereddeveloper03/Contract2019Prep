@@ -26,22 +26,19 @@ public:
 
 	UCanvasPanel* RootWidget;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	//UTextBlock* TextBox;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
+	UTextBlock* TextBox;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	//UButton* ExampleButton;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
+	UButton* ExampleButton;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	//UButton* ExampleButton2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
+	UButton* ExampleButton2;
 
 	virtual bool Initialize() override;
 
 	UFUNCTION()
 	void OnButtonClicked();
-
-	UFUNCTION(BlueprintCallable, Category = "Test")
-	void changeWidgetColor(UButton* inputButton);
 
 	//virtual TSharedRef<SWidget> RebuildWidget() override;
 };

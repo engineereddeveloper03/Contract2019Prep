@@ -24,9 +24,9 @@ void UHUDWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	//ExampleButton = WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(), TEXT("First Button"));
-	//RootWidget->AddChildToCanvas(ExampleButton);
-	//ExampleButton->OnClicked.AddDynamic(this, &UHUDWidget::OnButtonClicked); // binding event
+	ExampleButton = WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(), TEXT("First Button"));
+	RootWidget->AddChildToCanvas(ExampleButton);
+	ExampleButton->OnClicked.AddDynamic(this, &UHUDWidget::OnButtonClicked); // binding event
 }
 
 bool UHUDWidget::Initialize()
@@ -42,13 +42,6 @@ bool UHUDWidget::Initialize()
 void UHUDWidget::OnButtonClicked()
 {
 
-}
-
-// Changes the color of the selected widget
-// @param the button whose color should change
-void UHUDWidget::changeWidgetColor(UButton* inputButton)
-{
-	inputButton->SetBackgroundColor(FLinearColor::Blue);
 }
 
 //TSharedRef<SWidget> UHUDWidget::RebuildWidget()
