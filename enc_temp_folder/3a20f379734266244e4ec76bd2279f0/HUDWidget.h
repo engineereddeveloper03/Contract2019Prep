@@ -19,6 +19,9 @@ class CONTRACT2019PREP_API UHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual bool Initialize() override;
+
 public:
 	UHUDWidget(const FObjectInitializer& ObjectInitializer);
 
@@ -26,19 +29,20 @@ public:
 
 	UCanvasPanel* RootWidget;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	UTextBlock* TextBox;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
+	//UTextBlock* TextBox;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
+	UPROPERTY(meta = (BindWidgetOptional))
 	UButton* ExampleButton;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	UButton* ExampleButton2;
-
-	virtual bool Initialize() override;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
+	//UButton* ExampleButton2;
 
 	UFUNCTION()
 	void OnButtonClicked();
+
+	UFUNCTION(BlueprintCallable, Category = "Test")
+	void changeWidgetColor(UButton* inputButton);
 
 	//virtual TSharedRef<SWidget> RebuildWidget() override;
 };

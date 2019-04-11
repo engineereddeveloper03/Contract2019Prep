@@ -19,29 +19,21 @@ class CONTRACT2019PREP_API UHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual bool Initialize() override;
+
 public:
 	UHUDWidget(const FObjectInitializer& ObjectInitializer);
 
 	virtual void NativeConstruct() override;
 
-	UCanvasPanel* RootWidget;
+	virtual TSharedRef<SWidget> RebuildWidget() override;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	//UTextBlock* TextBox;
+	// UI Elements
+	UPROPERTY(meta = (BindWidgetOptional))
+	UButton* ExampleButton;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	//UButton* ExampleButton;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	//UButton* ExampleButton2;
-
-	virtual bool Initialize() override;
-
+	// Event Handlers
 	UFUNCTION()
 	void OnButtonClicked();
-
-	UFUNCTION(BlueprintCallable, Category = "Test")
-	void changeWidgetColor(UButton* inputButton);
-
-	//virtual TSharedRef<SWidget> RebuildWidget() override;
 };
