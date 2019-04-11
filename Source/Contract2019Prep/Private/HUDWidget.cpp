@@ -11,8 +11,10 @@ void UHUDWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	// binding events to bound objects
+	// binding events to bound widgets
 	ExampleButton->OnClicked.AddDynamic(this, &UHUDWidget::OnButtonClicked);
+	ExampleButton->OnClicked.AddDynamic(this, &UHUDWidget::DoubleClick);
+
 	PlayButton->OnClicked.AddDynamic(this, &UHUDWidget::StartGame);
 }
 
@@ -36,6 +38,20 @@ void UHUDWidget::OnButtonClicked()
 	}
 
 	colored = !colored;
+}
+
+// Description: Testing how two functions bound to the same event operate in-game.
+//              However, functionality is similar to OnButtonClicked.
+void UHUDWidget::DoubleClick()
+{
+	if (!colored)
+	{
+		ExampleButton2->SetBackgroundColor(FLinearColor::Red);
+	}
+	else
+	{
+		ExampleButton2->SetBackgroundColor(FLinearColor::Gray);
+	}
 }
 
 // Description: Loads the main level when the Play button is pressed.

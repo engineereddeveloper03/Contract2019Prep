@@ -35,11 +35,17 @@ public:
 	UButton* ExampleButton;
 
 	UPROPERTY(meta = (BindWidgetOptional))
+	UButton* ExampleButton2;
+
+	UPROPERTY(meta = (BindWidgetOptional))
 	UButton* PlayButton;
 
 	// Event Handlers
 	UFUNCTION()
 	void OnButtonClicked();
+
+	UFUNCTION()
+	void DoubleClick();
 
 	UFUNCTION()
 	void StartGame();
