@@ -17,6 +17,19 @@
 
 AContract2019PrepCharacter::AContract2019PrepCharacter()
 {
+	// Initialize variables
+	FullHealth = 1000.0f;
+	Health = FullHealth;
+	HealthPercentage = 1.0f;
+	bCanBeDamaged = true;
+
+	FullMagic = 100.0f;
+	Magic = FullMagic;
+	MagicPercentage = 1.0f;
+	PreviousMagic = MagicPercentage;
+	MagicValue = 0.0f;
+	bCanUseMagic = true;
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 

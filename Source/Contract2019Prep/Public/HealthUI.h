@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "ProgressBar.h"
-#include "Text.h"
+#include "TextBlock.h"
 #include "Contract2019PrepCharacter.h"
 #include "Kismet\GameplayStatics.h"
 #include "HealthUI.generated.h"
@@ -29,10 +29,25 @@ public:
 	UPROPERTY(meta = (BindWidgetOptional))
 	UProgressBar* MagicBar;
 
-	//UPROPERTY(meta = (BindWidgetOptional))
-	//UTextBuffer* HealthText;
+	UPROPERTY(meta = (BindWidgetOptional))
+	UTextBlock* HealthText;
+
+	UPROPERTY(meta = (BindWidgetOptional))
+	UTextBlock* MagicText;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")
+	UWidgetAnimation* FlashAnim;
 
 	// Event Handlers
 	UFUNCTION()
 	float UpdateHealthBar();
+
+	UFUNCTION()
+	float UpdateMagicBar();
+
+	UFUNCTION()
+	FText UpdateHealthText();
+
+	UFUNCTION()
+	FText UpdateMagicText();
 };
