@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "TextBlock.h"
 #include "WidgetTree.h"
+#include "MenuAnchor.h"
 #include "Kismet\GameplayStatics.h"
 #include "HUDWidget.generated.h"
 
@@ -40,6 +41,9 @@ public:
 	UPROPERTY(meta = (BindWidgetOptional))
 	UButton* PlayButton;
 
+	UPROPERTY(meta = (BindWidgetOptional))
+	UMenuAnchor* MenuAnchorB;
+
 	// Event Handlers
 	UFUNCTION()
 	void OnButtonClicked();
@@ -49,6 +53,9 @@ public:
 
 	UFUNCTION()
 	void StartGame();
+
+	UFUNCTION()
+	void toggleMenu();
 
 	// Misc
 	bool colored;

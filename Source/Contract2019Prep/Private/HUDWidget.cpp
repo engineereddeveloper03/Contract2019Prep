@@ -11,9 +11,11 @@ void UHUDWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	// binding events to bound widgets
+	// binding functions to widget events
 	ExampleButton->OnClicked.AddDynamic(this, &UHUDWidget::OnButtonClicked);
 	ExampleButton->OnClicked.AddDynamic(this, &UHUDWidget::DoubleClick);
+
+	ExampleButton2->OnReleased.AddDynamic(this, &UHUDWidget::toggleMenu);
 
 	PlayButton->OnClicked.AddDynamic(this, &UHUDWidget::StartGame);
 }
@@ -58,6 +60,12 @@ void UHUDWidget::DoubleClick()
 void UHUDWidget::StartGame()
 {
 	UGameplayStatics::OpenLevel(GetWorld(), "ThirdPersonExampleMap");
+}
+
+// Description: Opens/closes the sub menu for the second button.
+void UHUDWidget::toggleMenu()
+{
+	MenuAnchorB->ToggleOpen(false);
 }
 
 TSharedRef<SWidget> UHUDWidget::RebuildWidget()
