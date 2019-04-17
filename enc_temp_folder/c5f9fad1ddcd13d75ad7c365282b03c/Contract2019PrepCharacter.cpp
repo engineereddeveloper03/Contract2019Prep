@@ -232,7 +232,6 @@ float AContract2019PrepCharacter::TakeDamage(float DamageAmount, struct FDamageE
 {
 	bCanBeDamaged = false;
 	redFlash = true;
-	OnTakeDamage.Broadcast();
 	UpdateHealth(-DamageAmount);
 	DamageTimer();
 	return DamageAmount;

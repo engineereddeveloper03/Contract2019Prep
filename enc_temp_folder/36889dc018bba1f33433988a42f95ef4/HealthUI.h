@@ -19,10 +19,6 @@ class CONTRACT2019PREP_API UHealthUI : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	TMap<FString, class UWidgetAnimation*> FindWidgetAnimation;
-
-	UWidgetBlueprintGeneratedClass* WidgetClass;
-
 	virtual void NativeConstruct() override;
 
 	AContract2019PrepCharacter* MyCharacter;
@@ -41,9 +37,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")
 	UWidgetAnimation* FlashAnim;
-
-	UFUNCTION()
-	void playDamageAnim();
 
 	// Event Handlers
 	UFUNCTION()

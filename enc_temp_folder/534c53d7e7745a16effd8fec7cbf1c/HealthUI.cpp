@@ -10,38 +10,6 @@ void UHealthUI::NativeConstruct()
 		MyCharacter = Cast<AContract2019PrepCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
 	}
 
-	if (MyCharacter)
-	{
-		MyCharacter->OnTakeDamage.AddDynamic(this, &UHealthUI::playDamageAnim);
-	}
-
-	// Find flash animation workaround
-	// Reference: https://answers.unrealengine.com/questions/427948/get-widget-animation-in-c.html
-	if (!WidgetClass)
-	{
-		WidgetClass = GetWidgetTreeOwningClass();
-	}
-
-	if (WidgetClass)
-	{
-		FindWidgetAnimation.Empty();
-
-		for (int i = 0; i < WidgetClass->Animations.Num(); i++)
-		{
-			FString Name = WidgetClass->Animations[i]->GetName();
-			FindWidgetAnimation.Add(Name, WidgetClass->Animations[i]);
-		}
-
-		if (WidgetClass->Animations[0] != NULL) 
-		{
-			FlashAnim = WidgetClass->Animations[0];
-		}
-		else 
-		{
-			UE_LOG(LogTemp, Warning, TEXT("There are no animations..."));
-		}
-	}
-
 	if (HealthBar)
 	{
 		HealthBar->PercentDelegate.BindUFunction(this, "UpdateHealthBar");
@@ -67,21 +35,9 @@ void UHealthUI::NativeConstruct()
 	}
 }
 
-void UHealthUI::playDamageAnim()
-{
-	if (FlashAnim)
-	{
-		PlayAnimation(FlashAnim);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No animation found."));
-	}
-}
-
 float UHealthUI::UpdateHealthBar()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Running1"));
+	UE_LOG(LogTemp, Warning, TEXT("Running1"));
 	if (MyCharacter)
 	{
 		return MyCharacter->GetHealth();
