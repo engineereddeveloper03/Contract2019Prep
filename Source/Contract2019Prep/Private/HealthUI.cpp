@@ -16,7 +16,7 @@ void UHealthUI::NativeConstruct()
 		MyCharacter->OnHealthChange.AddDynamic(this, &UHealthUI::UpdateHealthText);
 		MyCharacter->OnHealthChange.AddDynamic(this, &UHealthUI::UpdateHealthBar);
 
-		// set initial HUD values
+		// sets current health to UI (if carried over from other levels)
 		UpdateHealthBar();
 		UpdateHealthText();
 	}
@@ -75,7 +75,7 @@ void UHealthUI::playDamageAnim()
 
 void UHealthUI::UpdateHealthBar()
 {
-	if (MyCharacter)
+	if (HealthBar)
 	{
 		HealthBar->SetPercent(MyCharacter->GetHealth());
 	}
@@ -96,13 +96,13 @@ float UHealthUI::UpdateMagicBar()
 // Description: Updating health directly when signaled to optimize performance.
 void UHealthUI::UpdateHealthText()
 {
-	if (MyCharacter)
+	if (HealthText)
 	{
 		HealthText->SetText(MyCharacter->GetHealthIntText());
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("No player character found."));
+		UE_LOG(LogTemp, Warning, TEXT("No health text found."));
 	}
 }
 

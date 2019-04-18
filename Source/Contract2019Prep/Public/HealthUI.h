@@ -27,16 +27,16 @@ public:
 
 	AContract2019PrepCharacter* MyCharacter;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UProgressBar* HealthBar;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UProgressBar* MagicBar;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UTextBlock* HealthText;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UTextBlock* MagicText;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animations")

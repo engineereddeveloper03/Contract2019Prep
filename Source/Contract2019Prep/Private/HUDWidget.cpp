@@ -73,7 +73,6 @@ void UHUDWidget::toggleMenu()
 
 void UHUDWidget::changeText()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Running"));
 	if (textToggled)
 	{
 		InvalidText->SetText(FText::FromString("Hello"));

@@ -32,25 +32,25 @@ public:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 
 	// UI Elements
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* ExampleButton;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* ExampleButton2;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* PerformanceButton;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* PlayButton;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UMenuAnchor* MenuAnchorB;
 
-	UPROPERTY(meta = (BindWidgetoptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UTextBlock* InvalidText;
 
-	UPROPERTY(meta = (BindWidgetoptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UTextBlock* RetainerText;
 
 	// Event Handlers

@@ -19,22 +19,8 @@ AMainGameMode::AMainGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 
-	static ConstructorHelpers::FClassFinder<UUserWidget> HealthBar(TEXT("/Game/ThirdPerson/UI/HealthUI"));
-	HUDWidgetClass = HealthBar.Class;
-
 	// use our custom HUD class
 	HUDClass = AContract2019PrepHUD::StaticClass();
-
-	// add Health Bar UI to viewport
-	if (HUDWidgetClass != nullptr)
-	{
-		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), HUDWidgetClass);
-
-		if (CurrentWidget)
-		{
-			CurrentWidget->AddToViewport();
-		}
-	}
 }
 
 void AMainGameMode::BeginPlay()
