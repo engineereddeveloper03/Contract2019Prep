@@ -39,10 +39,19 @@ public:
 	UButton* ExampleButton2;
 
 	UPROPERTY(meta = (BindWidgetOptional))
+	UButton* PerformanceButton;
+
+	UPROPERTY(meta = (BindWidgetOptional))
 	UButton* PlayButton;
 
 	UPROPERTY(meta = (BindWidgetOptional))
 	UMenuAnchor* MenuAnchorB;
+
+	UPROPERTY(meta = (BindWidgetoptional))
+	UTextBlock* InvalidText;
+
+	UPROPERTY(meta = (BindWidgetoptional))
+	UTextBlock* RetainerText;
 
 	// Event Handlers
 	UFUNCTION()
@@ -57,6 +66,10 @@ public:
 	UFUNCTION()
 	void toggleMenu();
 
+	UFUNCTION()
+	void changeText();
+
 	// Misc
 	bool colored;
+	bool textToggled;
 };

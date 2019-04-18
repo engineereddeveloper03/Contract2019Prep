@@ -5,6 +5,7 @@
 UHUDWidget::UHUDWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	colored = false;
+	textToggled = false;
 }
 
 void UHUDWidget::NativeConstruct()
@@ -16,6 +17,8 @@ void UHUDWidget::NativeConstruct()
 	ExampleButton->OnClicked.AddDynamic(this, &UHUDWidget::DoubleClick);
 
 	ExampleButton2->OnReleased.AddDynamic(this, &UHUDWidget::toggleMenu);
+
+	PerformanceButton->OnReleased.AddDynamic(this, &UHUDWidget::changeText);
 
 	PlayButton->OnClicked.AddDynamic(this, &UHUDWidget::StartGame);
 }
@@ -66,6 +69,23 @@ void UHUDWidget::StartGame()
 void UHUDWidget::toggleMenu()
 {
 	MenuAnchorB->ToggleOpen(false);
+}
+
+void UHUDWidget::changeText()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Running"));
+	if (textToggled)
+	{
+		InvalidText->SetText(FText::FromString("Hello"));
+		RetainerText->SetText(FText::FromString("Changing"));
+	}
+	else
+	{
+		InvalidText->SetText(FText::FromString("Goodbye"));
+		RetainerText->SetText(FText::FromString("Back"));
+	}
+
+	textToggled = !textToggled;
 }
 
 TSharedRef<SWidget> UHUDWidget::RebuildWidget()
