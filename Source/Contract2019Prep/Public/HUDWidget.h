@@ -10,6 +10,7 @@
 #include "TextBlock.h"
 #include "WidgetTree.h"
 #include "MenuAnchor.h"
+#include "WidgetSwitcher.h"
 #include "Kismet\GameplayStatics.h"
 #include "HUDWidget.generated.h"
 
@@ -42,6 +43,9 @@ public:
 	UButton* PerformanceButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UButton* ChangeButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* PlayButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
@@ -52,6 +56,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UTextBlock* RetainerText;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UWidgetSwitcher* LogoHolder;
 
 	// Event Handlers
 	UFUNCTION()
@@ -69,7 +76,11 @@ public:
 	UFUNCTION()
 	void changeText();
 
+	UFUNCTION()
+	void changePage();
+
 	// Misc
 	bool colored;
 	bool textToggled;
+	int numWidgets;
 };

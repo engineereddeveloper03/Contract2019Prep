@@ -20,7 +20,15 @@ void UHUDWidget::NativeConstruct()
 
 	PerformanceButton->OnReleased.AddDynamic(this, &UHUDWidget::changeText);
 
+	ChangeButton->OnReleased.AddDynamic(this, &UHUDWidget::changePage);
+
 	PlayButton->OnClicked.AddDynamic(this, &UHUDWidget::StartGame);
+
+	// get number of widgets to switch between
+	if (LogoHolder)
+	{
+		numWidgets = LogoHolder->GetNumWidgets();
+	}
 }
 
 bool UHUDWidget::Initialize()
@@ -71,6 +79,7 @@ void UHUDWidget::toggleMenu()
 	MenuAnchorB->ToggleOpen(false);
 }
 
+// Description: Changes the text on the widget toggling them between two types of Strings.
 void UHUDWidget::changeText()
 {
 	if (textToggled)
@@ -86,6 +95,21 @@ void UHUDWidget::changeText()
 
 	textToggled = !textToggled;
 }
+
+// Description: Switches between the available widget pages.
+void UHUDWidget::changePage()
+{
+	int currIndex = LogoHolder->GetActiveWidgetIndex();
+	if (currIndex == numWidgets - 1)
+	{
+		LogoHolder->SetActiveWidgetIndex(0);
+	}
+	else
+	{
+		LogoHolder->SetActiveWidgetIndex(currIndex + 1);
+	}
+}
+
 
 TSharedRef<SWidget> UHUDWidget::RebuildWidget()
 {
