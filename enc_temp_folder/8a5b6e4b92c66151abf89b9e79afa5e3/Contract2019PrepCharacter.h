@@ -6,8 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Contract2019PrepCharacter.generated.h"
 
-/*Multi-cast delegate declartionS.*/
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnhealthChange);
+/*Multi-cast delegate declartion.*/
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDamageDealt);
 
 class UInputComponent;
@@ -35,12 +34,9 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	// Event delegates
+	// Event delegate when running into fire
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnhealthChange OnHealthChange;
-
-	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnDamageDealt OnDamageDealt;
+	FOnDamageDealt OnTakeDamage;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)

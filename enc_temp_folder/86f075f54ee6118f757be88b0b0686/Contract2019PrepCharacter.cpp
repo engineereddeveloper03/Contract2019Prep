@@ -232,8 +232,8 @@ float AContract2019PrepCharacter::TakeDamage(float DamageAmount, struct FDamageE
 {
 	bCanBeDamaged = false;
 	redFlash = true;
+	OnTakeDamage.Broadcast();
 	UpdateHealth(-DamageAmount);
-	OnDamageDealt.Broadcast();
 	DamageTimer();
 	return DamageAmount;
 }
@@ -243,7 +243,6 @@ void AContract2019PrepCharacter::UpdateHealth(float HealthChange)
 	Health += HealthChange;
 	Health = FMath::Clamp(Health, 0.0f, FullHealth);
 	HealthPercentage = Health / FullHealth;
-	OnHealthChange.Broadcast();
 }
 
 void AContract2019PrepCharacter::OnResetVR()

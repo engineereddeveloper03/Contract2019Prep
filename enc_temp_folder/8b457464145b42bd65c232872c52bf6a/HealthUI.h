@@ -47,13 +47,13 @@ public:
 
 	// Event Handlers
 	UFUNCTION()
-	void UpdateHealthBar();
-
-	UFUNCTION()
-	void UpdateHealthText();
+	float UpdateHealthBar();
 
 	UFUNCTION()
 	float UpdateMagicBar();
+
+	UFUNCTION()
+	FText UpdateHealthText();
 
 	UFUNCTION()
 	FText UpdateMagicText();

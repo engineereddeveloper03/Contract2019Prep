@@ -12,13 +12,7 @@ void UHealthUI::NativeConstruct()
 
 	if (MyCharacter)
 	{
-		MyCharacter->OnDamageDealt.AddDynamic(this, &UHealthUI::playDamageAnim);
-		MyCharacter->OnHealthChange.AddDynamic(this, &UHealthUI::UpdateHealthText);
-		MyCharacter->OnHealthChange.AddDynamic(this, &UHealthUI::UpdateHealthBar);
-
-		// set initial HUD values
-		UpdateHealthBar();
-		UpdateHealthText();
+		MyCharacter->OnTakeDamage.AddDynamic(this, &UHealthUI::playDamageAnim);
 	}
 
 	// Find flash animation workaround
@@ -48,10 +42,22 @@ void UHealthUI::NativeConstruct()
 		}
 	}
 
+	if (HealthBar)
+	{
+		HealthBar->PercentDelegate.BindUFunction(this, "UpdateHealthBar");
+		HealthBar->SynchronizeProperties();
+	}
+
 	if (MagicBar)
 	{
 		MagicBar->PercentDelegate.BindUFunction(this, "UpdateMagicBar");
 		MagicBar->SynchronizeProperties();
+	}
+
+	if (HealthText)
+	{
+		HealthText->TextDelegate.BindUFunction(this, "UpdateHealthText");
+		HealthText->SynchronizeProperties();
 	}
 
 	if (MagicText)
@@ -73,16 +79,22 @@ void UHealthUI::playDamageAnim()
 	}
 }
 
-void UHealthUI::UpdateHealthBar()
+float UHealthUI::UpdateHealthBar()
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Running1"));
 	if (MyCharacter)
 	{
-		HealthBar->SetPercent(MyCharacter->GetHealth());
+		return MyCharacter->GetHealth();
+	}
+	else
+	{
+		return 1.0f;
 	}
 }
 
 float UHealthUI::UpdateMagicBar()
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Running2"));
 	if (MyCharacter)
 	{
 		return MyCharacter->GetMagic();
@@ -93,21 +105,22 @@ float UHealthUI::UpdateMagicBar()
 	}
 }
 
-// Description: Updating health directly when signaled to optimize performance.
-void UHealthUI::UpdateHealthText()
+FText UHealthUI::UpdateHealthText()
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Running3"));
 	if (MyCharacter)
 	{
-		HealthText->SetText(MyCharacter->GetHealthIntText());
+		return MyCharacter->GetHealthIntText();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("No player character found."));
+		return FText::FromString("");
 	}
 }
 
 FText UHealthUI::UpdateMagicText()
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Running4"));
 	if (MyCharacter)
 	{
 		return MyCharacter->GetMagicIntText();
