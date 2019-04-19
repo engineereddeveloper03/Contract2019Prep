@@ -18,6 +18,9 @@ void UHealthUI::NativeConstruct()
 		MyCharacter->OnHealthChange.AddDynamic(this, &UHealthUI::UpdateHealthText);
 		MyCharacter->OnHealthChange.AddDynamic(this, &UHealthUI::UpdateHealthBar);
 
+		MyCharacter->OnMagicChangeStart.AddDynamic(this, &UHealthUI::UpdateMagic);
+		MyCharacter->OnMagicChangeEnd.AddDynamic(this, &UHealthUI::UpdateMagicEnd);
+
 		// sets current health to UI (if carried over from other levels)
 		UpdateHealthBar();
 		UpdateHealthText();
@@ -48,18 +51,6 @@ void UHealthUI::NativeConstruct()
 		{
 			UE_LOG(LogTemp, Warning, TEXT("There are no animations..."));
 		}
-	}
-
-	if (MagicBar)
-	{
-		MagicBar->PercentDelegate.BindUFunction(this, "UpdateMagicBar");
-		MagicBar->SynchronizeProperties();
-	}
-
-	if (MagicText)
-	{
-		MagicText->TextDelegate.BindUFunction(this, "UpdateMagicText");
-		MagicText->SynchronizeProperties();
 	}
 }
 
@@ -95,6 +86,18 @@ float UHealthUI::UpdateMagicBar()
 	}
 }
 
+FText UHealthUI::UpdateMagicText()
+{
+	if (MyCharacter)
+	{
+		return MyCharacter->GetMagicIntText();
+	}
+	else
+	{
+		return FText::FromString("");
+	}
+}
+
 // Description: Updating health directly when signaled to optimize performance.
 void UHealthUI::UpdateHealthText()
 {
@@ -104,18 +107,60 @@ void UHealthUI::UpdateHealthText()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("No health text found."));
+		UE_LOG(LogTemp, Warning, TEXT("No health text widget found."));
 	}
 }
 
-void UHealthUI::UpdateMagicText()
+// Description: Binds the text and magic bar when update is called so UI updates properly.
+void UHealthUI::UpdateMagic()
 {
-	if (MyCharacter)
+	// bind MagicText
+	if (MagicText)
 	{
-		//return MyCharacter->GetMagicIntText();
+		MagicText->TextDelegate.BindUFunction(this, "UpdateMagicText");
+		MagicText->SynchronizeProperties();
 	}
 	else
 	{
-		//return FText::FromString("");
+		UE_LOG(LogTemp, Warning, TEXT("No magic text widget found."));
+	}
+
+	// bind MagicBar
+	if (MagicText)
+	{
+		MagicBar->PercentDelegate.BindUFunction(this, "UpdateMagicBar");
+		MagicBar->SynchronizeProperties();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No magic bar widget found."));
+	}
+}
+
+// Description: Removes binding from text and magic bar when update is complete.
+void UHealthUI::UpdateMagicEnd()
+{
+	// reset magic text
+	if (MagicText)
+	{
+		MagicText->TextDelegate.Clear();
+		MagicText->SetText(MyCharacter->GetMagicIntText());
+		MagicText->SynchronizeProperties();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No magic text widget found."));
+	}
+
+	// reset magic bar
+	if (MagicText)
+	{
+		MagicBar->PercentDelegate.Clear();
+		MagicBar->SetPercent(MyCharacter->GetMagic());
+		MagicBar->SynchronizeProperties();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No magic bar widget found."));
 	}
 }

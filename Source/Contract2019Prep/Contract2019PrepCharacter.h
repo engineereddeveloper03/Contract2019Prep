@@ -9,7 +9,8 @@
 /*Multi-cast delegate declartionS.*/
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthChange);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDamageDealt);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMagicChange);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMagicChangeStart);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMagicChangeEnd);
 
 class UInputComponent;
 class UTimelineComponent;
@@ -44,7 +45,10 @@ public:
 	FOnDamageDealt OnDamageDealt;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnMagicChange OnMagicChange;
+	FOnMagicChangeStart OnMagicChangeStart;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnMagicChangeEnd OnMagicChangeEnd;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
