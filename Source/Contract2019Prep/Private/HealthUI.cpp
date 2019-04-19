@@ -5,6 +5,8 @@
 
 void UHealthUI::NativeConstruct()
 {
+	Super::NativeConstruct();
+
 	if (!MyCharacter)
 	{
 		MyCharacter = Cast<AContract2019PrepCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
