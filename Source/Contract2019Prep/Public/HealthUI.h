@@ -56,5 +56,5 @@ public:
 	float UpdateMagicBar();
 
 	UFUNCTION()
-	FText UpdateMagicText();
+	void UpdateMagicText();
 };

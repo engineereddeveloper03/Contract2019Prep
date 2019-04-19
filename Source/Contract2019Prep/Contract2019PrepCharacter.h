@@ -7,8 +7,9 @@
 #include "Contract2019PrepCharacter.generated.h"
 
 /*Multi-cast delegate declartionS.*/
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnhealthChange);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthChange);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDamageDealt);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMagicChange);
 
 class UInputComponent;
 class UTimelineComponent;
@@ -37,10 +38,13 @@ protected:
 public:
 	// Event delegates
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnhealthChange OnHealthChange;
+	FOnHealthChange OnHealthChange;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnDamageDealt OnDamageDealt;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnMagicChange OnMagicChange;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)

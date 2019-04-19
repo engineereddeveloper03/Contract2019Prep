@@ -6,6 +6,7 @@ UHUDWidget::UHUDWidget(const FObjectInitializer& ObjectInitializer) : Super(Obje
 {
 	colored = false;
 	textToggled = false;
+	englishText = true;
 }
 
 void UHUDWidget::NativeConstruct()
@@ -22,6 +23,8 @@ void UHUDWidget::NativeConstruct()
 
 	ChangeButton->OnReleased.AddDynamic(this, &UHUDWidget::changePage);
 
+	LanguageButton->OnReleased.AddDynamic(this, &UHUDWidget::toggleLanguage);
+
 	PlayButton->OnClicked.AddDynamic(this, &UHUDWidget::StartGame);
 
 	// get number of widgets to switch between
@@ -29,6 +32,12 @@ void UHUDWidget::NativeConstruct()
 	{
 		numWidgets = LogoHolder->GetNumWidgets();
 	}
+
+	// set localization text
+	text1A = NSLOCTEXT("UMG", "Text1A", "Hello");
+	text1B = NSLOCTEXT("UMG", "Text1B", "Goodbye");
+	text2A = NSLOCTEXT("UMG", "Text2A", "Change");
+	text2B = NSLOCTEXT("UMG", "Text2B", "Back");
 }
 
 bool UHUDWidget::Initialize()
@@ -84,13 +93,13 @@ void UHUDWidget::changeText()
 {
 	if (textToggled)
 	{
-		InvalidText->SetText(FText::FromString("Hello"));
-		RetainerText->SetText(FText::FromString("Changing"));
+		InvalidText->SetText(text1A);
+		RetainerText->SetText(text2A);
 	}
 	else
 	{
-		InvalidText->SetText(FText::FromString("Goodbye"));
-		RetainerText->SetText(FText::FromString("Back"));
+		InvalidText->SetText(text1B);
+		RetainerText->SetText(text2B);
 	}
 
 	textToggled = !textToggled;
@@ -108,6 +117,20 @@ void UHUDWidget::changePage()
 	{
 		LogoHolder->SetActiveWidgetIndex(currIndex + 1);
 	}
+}
+
+void UHUDWidget::toggleLanguage()
+{
+	if (englishText)
+	{
+		FInternationalization::Get().SetCurrentCulture(TEXT("es"));
+	}
+	else
+	{
+		FInternationalization::Get().SetCurrentCulture(TEXT("en"));
+	}
+
+	englishText = !englishText;
 }
 
 

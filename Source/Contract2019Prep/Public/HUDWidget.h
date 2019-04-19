@@ -49,6 +49,9 @@ public:
 	UButton* PlayButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UButton* LanguageButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UMenuAnchor* MenuAnchorB;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
@@ -79,8 +82,18 @@ public:
 	UFUNCTION()
 	void changePage();
 
+	UFUNCTION()
+	void toggleLanguage();
+
+	// Localization Text
+	FText text1A;
+	FText text1B;
+	FText text2A;
+	FText text2B;
+
 	// Misc
 	bool colored;
 	bool textToggled;
+	bool englishText;
 	int numWidgets;
 };

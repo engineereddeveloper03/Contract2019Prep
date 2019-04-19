@@ -108,14 +108,14 @@ void UHealthUI::UpdateHealthText()
 	}
 }
 
-FText UHealthUI::UpdateMagicText()
+void UHealthUI::UpdateMagicText()
 {
 	if (MyCharacter)
 	{
-		return MyCharacter->GetMagicIntText();
+		//return MyCharacter->GetMagicIntText();
 	}
 	else
 	{
-		return FText::FromString("");
+		//return FText::FromString("");
 	}
 }
