@@ -186,31 +186,28 @@ void AContract2019PrepCharacter::SetMagicValue()
 	MagicPercentage = FMath::Clamp(MagicPercentage, 0.0f, 1.0f);
 }
 
+// Description: Called when timeline finishes.
 void AContract2019PrepCharacter::SetMagicState()
 {
+	OnMagicChangeEnd.Broadcast();
 	bCanUseMagic = true;
 	MagicValue = 0.0f;
-	if (GunDefaultMaterial)
-	{
-		// set material on body part
-	}
 }
 
 void AContract2019PrepCharacter::SetMagicChange(float MagicChange)
 {
+	OnMagicChangeStart.Broadcast();
 	bCanUseMagic = false;
 	PreviousMagic = MagicPercentage;
 	MagicValue = MagicChange / FullMagic;
-	if (GunOverheatMaterial)
-	{
-		// change material to overheat
-	}
 
 	MyTimeline->PlayFromStart();
 }
 
+// Description: Replenishes magic after timer has expired.
 void AContract2019PrepCharacter::UpdateMagic()
 {
+	OnMagicChangeStart.Broadcast();
 	PreviousMagic = MagicPercentage;
 	MagicPercentage = Magic / FullMagic;
 	MagicValue = 1.0f;
@@ -232,8 +229,8 @@ float AContract2019PrepCharacter::TakeDamage(float DamageAmount, struct FDamageE
 {
 	bCanBeDamaged = false;
 	redFlash = true;
-	OnTakeDamage.Broadcast();
 	UpdateHealth(-DamageAmount);
+	OnDamageDealt.Broadcast();
 	DamageTimer();
 	return DamageAmount;
 }
@@ -243,6 +240,7 @@ void AContract2019PrepCharacter::UpdateHealth(float HealthChange)
 	Health += HealthChange;
 	Health = FMath::Clamp(Health, 0.0f, FullHealth);
 	HealthPercentage = Health / FullHealth;
+	OnHealthChange.Broadcast();
 }
 
 void AContract2019PrepCharacter::OnResetVR()

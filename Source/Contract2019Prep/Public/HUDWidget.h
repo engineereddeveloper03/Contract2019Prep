@@ -10,6 +10,7 @@
 #include "TextBlock.h"
 #include "WidgetTree.h"
 #include "MenuAnchor.h"
+#include "WidgetSwitcher.h"
 #include "Kismet\GameplayStatics.h"
 #include "HUDWidget.generated.h"
 
@@ -32,17 +33,35 @@ public:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 
 	// UI Elements
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* ExampleButton;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* ExampleButton2;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UButton* PerformanceButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UButton* ChangeButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UButton* PlayButton;
 
-	UPROPERTY(meta = (BindWidgetOptional))
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UButton* LanguageButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UMenuAnchor* MenuAnchorB;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UTextBlock* InvalidText;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UTextBlock* RetainerText;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UWidgetSwitcher* LogoHolder;
 
 	// Event Handlers
 	UFUNCTION()
@@ -57,6 +76,24 @@ public:
 	UFUNCTION()
 	void toggleMenu();
 
+	UFUNCTION()
+	void changeText();
+
+	UFUNCTION()
+	void changePage();
+
+	UFUNCTION()
+	void toggleLanguage();
+
+	// Localization Text
+	FText text1A;
+	FText text1B;
+	FText text2A;
+	FText text2B;
+
 	// Misc
 	bool colored;
+	bool textToggled;
+	bool englishText;
+	int numWidgets;
 };
