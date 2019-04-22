@@ -15,6 +15,7 @@ class CONTRACT2019PREP_API UMyNewBlueprintFunctionLibrary : public UBlueprintFun
 {
 	GENERATED_BODY()
 
+public:
 	UFUNCTION(Blueprintcallable, Category = "C++ Test")
 	static void SayHello();
 };

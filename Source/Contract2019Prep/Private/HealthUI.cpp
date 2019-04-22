@@ -64,6 +64,9 @@ void UHealthUI::playDamageAnim()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No animation found."));
 	}
+
+	// BP function library test
+	//UMyNewBlueprintFunctionLibrary::SayHello();
 }
 
 void UHealthUI::UpdateHealthBar()

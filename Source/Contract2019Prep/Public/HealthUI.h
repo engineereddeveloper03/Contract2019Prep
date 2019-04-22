@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "ProgressBar.h"
 #include "TextBlock.h"
+#include "MyNewBlueprintFunctionLibrary.h"
 #include "Contract2019PrepCharacter.h"
 #include "Kismet\GameplayStatics.h"
 #include "HealthUI.generated.h"
