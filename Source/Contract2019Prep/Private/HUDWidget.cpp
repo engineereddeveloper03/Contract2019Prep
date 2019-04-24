@@ -26,6 +26,7 @@ void UHUDWidget::NativeConstruct()
 	LanguageButton->OnReleased.AddDynamic(this, &UHUDWidget::toggleLanguage);
 
 	PlayButton->OnClicked.AddDynamic(this, &UHUDWidget::StartGame);
+	PlayButton->OnHovered.AddDynamic(this, &UHUDWidget::SaySomething);
 
 	// get number of widgets to switch between
 	if (LogoHolder)
@@ -85,7 +86,7 @@ void UHUDWidget::StartGame()
 // Description: Opens/closes the sub menu for the second button.
 void UHUDWidget::toggleMenu()
 {
-	MenuAnchorB->ToggleOpen(false);
+	OptionsAnchor->ToggleOpen(false);
 }
 
 // Description: Changes the text on the widget toggling them between two types of Strings.
@@ -131,6 +132,11 @@ void UHUDWidget::toggleLanguage()
 	}
 
 	englishText = !englishText;
+}
+
+void UHUDWidget::SaySomething()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Hovering"));
 }
 
 

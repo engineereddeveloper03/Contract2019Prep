@@ -52,7 +52,7 @@ public:
 	UButton* LanguageButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
-	UMenuAnchor* MenuAnchorB;
+	UMenuAnchor* OptionsAnchor;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
 	UTextBlock* InvalidText;
@@ -84,6 +84,9 @@ public:
 
 	UFUNCTION()
 	void toggleLanguage();
+
+	UFUNCTION()
+	void SaySomething();
 
 	// Localization Text
 	FText text1A;
